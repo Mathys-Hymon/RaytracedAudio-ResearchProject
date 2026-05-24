@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="..\..\RayTracedAudio.uproject" />
+    <Filter Include="Source">
+      <UniqueIdentifier>{F31BBDD1-B3E8-3BCC-9652-680E16935819}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\RayTracedAudio.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="..\..\Source\RayTracedAudioEditor.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="..\..\.vsconfig" />
+    <Filter Include="Config">
+      <UniqueIdentifier>{FA535FFB-25E1-3D20-B416-52F9BE21E06E}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Config\DefaultEditor.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultEditorPerProjectUserSettings.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultEngine.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultGame.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultInput.ini">
+      <Filter>Config</Filter>
+    </None>
+    <Filter Include="Plugins">
+      <UniqueIdentifier>{BB38096A-B391-30DC-A0D4-4F3EA6B44507}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Plugins\AudioTra58f346f95d02V1">
+      <UniqueIdentifier>{1FB88A3B-4D73-309C-A456-5F86B81CD277}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Plugins\AudioTra58f346f95d02V1\Source">
+      <UniqueIdentifier>{517388BB-7090-301C-8D74-DEE6D9EB2917}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Plugins\AudioTra58f346f95d02V1\Source\AudioTracingDebug">
+      <UniqueIdentifier>{5075AD2B-4EC9-38C8-A131-F272E350BAAC}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracingDebug\AudioTracingDebug.Build.cs">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracingDebug</Filter>
+    </None>
+    <Filter Include="Plugins\AudioTra58f346f95d02V1\Source\AudioTracingDebug\Private">
+      <UniqueIdentifier>{A0A81471-D617-3167-8451-6CD07A67D9BF}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracingDebug\Private\AudioTracingDebug.cpp">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracingDebug\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracingDebug\Private\AudioTracingDebugSubsystem.cpp">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracingDebug\Private</Filter>
+    </ClCompile>
+    <Filter Include="Plugins\AudioTra58f346f95d02V1\Source\AudioTracingDebug\Private\SceneViewExtensions">
+      <UniqueIdentifier>{C60219AC-4543-3F30-A17B-4760E898252B}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracingDebug\Private\SceneViewExtensions\ATDebugSceneViewExtension.cpp">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracingDebug\Private\SceneViewExtensions</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracingDebug\Private\SceneViewExtensions\ATDebugSceneViewExtension.h">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracingDebug\Private\SceneViewExtensions</Filter>
+    </ClInclude>
+    <Filter Include="Plugins\AudioTra58f346f95d02V1\Source\AudioTracingDebug\Private\Shaders">
+      <UniqueIdentifier>{8C2341F2-CE87-32F9-BBEC-C9A7B8931A49}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracingDebug\Private\Shaders\AudioHardwareRaytracingDebug.cpp">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracingDebug\Private\Shaders</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracingDebug\Private\Shaders\AudioHardwareRaytracingDebug.h">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracingDebug\Private\Shaders</Filter>
+    </ClInclude>
+    <Filter Include="Plugins\AudioTra58f346f95d02V1\Source\AudioTracingDebug\Public">
+      <UniqueIdentifier>{37D1749F-E658-3EBF-8AA3-1154C15A8B17}</UniqueIdentifier>
+    </Filter>
+    <ClInclude Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracingDebug\Public\AudioTracingDebug.h">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracingDebug\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracingDebug\Public\AudioTracingDebugSubsystem.h">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracingDebug\Public</Filter>
+    </ClInclude>
+    <None Include="..\..\Plugins\AudioTra58f346f95d02V1\AudioTracing.uplugin">
+      <Filter>Plugins\AudioTra58f346f95d02V1</Filter>
+    </None>
+    <Filter Include="Plugins\AudioTra58f346f95d02V1\Resources">
+      <UniqueIdentifier>{6BF0C7AE-229A-34D3-825A-134DD8C355CE}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Plugins\AudioTra58f346f95d02V1\Resources\Icon128.png">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Resources</Filter>
+    </None>
+    <Filter Include="Plugins\AudioTra58f346f95d02V1\Shaders">
+      <UniqueIdentifier>{709E283E-8989-3529-B9E4-E5AB6AB63193}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Plugins\AudioTra58f346f95d02V1\Shaders\Private">
+      <UniqueIdentifier>{789F826C-3A5B-35EE-B4D5-097F04CC5C18}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Plugins\AudioTra58f346f95d02V1\Shaders\Private\AudioRayTracing.usf">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Shaders\Private</Filter>
+    </None>
+    <None Include="..\..\Plugins\AudioTra58f346f95d02V1\Shaders\Private\AudioRayTracingCommon.ush">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Shaders\Private</Filter>
+    </None>
+    <None Include="..\..\Plugins\AudioTra58f346f95d02V1\Shaders\Private\AudioRayTracingDebugMaterial.usf">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Shaders\Private</Filter>
+    </None>
+    <Filter Include="Plugins\AudioTra58f346f95d02V1\Source\AudioTracingEditor">
+      <UniqueIdentifier>{58AF436F-5C33-3C14-AD4B-BBC9C7E8FA0D}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracingEditor\AudioTracingEditor.Build.cs">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracingEditor</Filter>
+    </None>
+    <Filter Include="Plugins\AudioTra58f346f95d02V1\Source\AudioTracingEditor\Private">
+      <UniqueIdentifier>{E9334553-3335-3ABD-AD5E-1303CF4FC391}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracingEditor\Private\AudioTracingEditor.cpp">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracingEditor\Private</Filter>
+    </ClCompile>
+    <Filter Include="Plugins\AudioTra58f346f95d02V1\Source\AudioTracingEditor\Private\ActorUtility">
+      <UniqueIdentifier>{733F1CD6-BF6B-3A81-9844-1EFDB08AB067}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracingEditor\Private\ActorUtility\AudioTracingActorActionUtility.cpp">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracingEditor\Private\ActorUtility</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracingEditor\Private\ActorUtility\AudioTracingActorActionUtility.h">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracingEditor\Private\ActorUtility</Filter>
+    </ClInclude>
+    <Filter Include="Plugins\AudioTra58f346f95d02V1\Source\AudioTracingEditor\Private\AssetTools">
+      <UniqueIdentifier>{461C2F60-8620-30A6-9D87-A0B985960E28}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracingEditor\Private\AssetTools\SoundMaterialAssetActions.cpp">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracingEditor\Private\AssetTools</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracingEditor\Private\AssetTools\SoundMaterialAssetActions.h">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracingEditor\Private\AssetTools</Filter>
+    </ClInclude>
+    <Filter Include="Plugins\AudioTra58f346f95d02V1\Source\AudioTracingEditor\Private\Factories">
+      <UniqueIdentifier>{FDF1C410-5E34-3749-8F53-55F901B93B3A}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracingEditor\Private\Factories\SoundMaterialFactory.cpp">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracingEditor\Private\Factories</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracingEditor\Private\Factories\SoundMaterialFactory.h">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracingEditor\Private\Factories</Filter>
+    </ClInclude>
+    <Filter Include="Plugins\AudioTra58f346f95d02V1\Source\AudioTracingEditor\Public">
+      <UniqueIdentifier>{4FCE2A7B-8883-3B80-9AE0-9F15589A6C55}</UniqueIdentifier>
+    </Filter>
+    <ClInclude Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracingEditor\Public\AudioTracingEditor.h">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracingEditor\Public</Filter>
+    </ClInclude>
+    <Filter Include="Plugins\AudioTra58f346f95d02V1\Source\AudioTracing">
+      <UniqueIdentifier>{804C17A4-DC85-3CEF-B7CC-9A5ABA15F976}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\AudioTracing.Build.cs">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracing</Filter>
+    </None>
+    <Filter Include="Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private">
+      <UniqueIdentifier>{29644C1D-79D4-33E1-8586-B4CE451D5141}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private\AudioTracing.cpp">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private\AudioTracingLog.cpp">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private\AudioTracingWorldSubsystem.cpp">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private</Filter>
+    </ClCompile>
+    <Filter Include="Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private\Components">
+      <UniqueIdentifier>{5F8AF4DC-6303-397B-9135-9C5589E8D2CA}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private\Components\ATSoundMaterialComponent.cpp">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private\Components</Filter>
+    </ClCompile>
+    <Filter Include="Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private\SceneViewExtensions">
+      <UniqueIdentifier>{960EC853-D797-33B3-AC56-5125F41E7313}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private\SceneViewExtensions\ATSceneViewExtension.cpp">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private\SceneViewExtensions</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private\SceneViewExtensions\ATSceneViewExtension.h">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private\SceneViewExtensions</Filter>
+    </ClInclude>
+    <Filter Include="Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private\Settings">
+      <UniqueIdentifier>{95AA3A5A-8451-3C00-B53A-97548E5244D7}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private\Settings\AudioTracingSettings.cpp">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private\Settings</Filter>
+    </ClCompile>
+    <Filter Include="Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private\Shaders">
+      <UniqueIdentifier>{9CAEA5C0-679B-3E02-B5B3-9A5F7F0296A1}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private\Shaders\AudioHardwareRaytracing.cpp">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private\Shaders</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private\Shaders\AudioHardwareRaytracing.h">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private\Shaders</Filter>
+    </ClInclude>
+    <Filter Include="Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private\Sound">
+      <UniqueIdentifier>{D7726F04-C05C-39EE-85E3-3BB7981C4092}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private\Sound\ATAudioSourceDataOverride.cpp">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private\Sound\ATAudioSourceDataOverrideFactory.cpp">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private\Sound\AudioTracingSpatializer.cpp">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private\Sound\AudioTracingSpatializerFactory.cpp">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private\Sound\AudioTracingSpatialTapDelay.cpp">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private\Sound</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private\Sound\AudioTracingSpatialTapDelay.h">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private\Sound</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private\Sound\SoundMaterial.cpp">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private\Sound</Filter>
+    </ClCompile>
+    <Filter Include="Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private\Utils">
+      <UniqueIdentifier>{40F610D5-71A9-33C5-BD71-E6750F1EC2FC}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private\Utils\ATAlgorithm.cpp">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private\Utils</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private\Utils\ATAlgorithm.h">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private\Utils</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private\Utils\ATUtils.cpp">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private\Utils</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private\Utils\ATUtils.h">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private\Utils</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private\Utils\AudioTracingParamThread.cpp">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private\Utils</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private\Utils\AudioTracingParamThread.h">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Private\Utils</Filter>
+    </ClInclude>
+    <Filter Include="Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Public">
+      <UniqueIdentifier>{D6193283-A2E6-3E68-BDC5-A5CECF7E304A}</UniqueIdentifier>
+    </Filter>
+    <ClInclude Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Public\AudioTracing.h">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Public\AudioTracingLog.h">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Public\AudioTracingWorldSubsystem.h">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Public</Filter>
+    </ClInclude>
+    <Filter Include="Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Public\Components">
+      <UniqueIdentifier>{BDB44F8F-A98E-313F-BE36-7484122B363F}</UniqueIdentifier>
+    </Filter>
+    <ClInclude Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Public\Components\ATSoundMaterialComponent.h">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Public\Components</Filter>
+    </ClInclude>
+    <Filter Include="Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Public\Settings">
+      <UniqueIdentifier>{A5783700-7404-39D5-8605-93E6835D1950}</UniqueIdentifier>
+    </Filter>
+    <ClInclude Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Public\Settings\AudioTracingSettings.h">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Public\Settings</Filter>
+    </ClInclude>
+    <Filter Include="Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Public\Sound">
+      <UniqueIdentifier>{EF39ED37-6FB1-3D98-BDC9-C2EC1ABAD133}</UniqueIdentifier>
+    </Filter>
+    <ClInclude Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Public\Sound\ATAudioSourceDataOverride.h">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Public\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Public\Sound\ATAudioSourceDataOverrideFactory.h">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Public\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Public\Sound\AudioTracingSpatializer.h">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Public\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Public\Sound\AudioTracingSpatializerFactory.h">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Public\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Public\Sound\SoundMaterial.h">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Public\Sound</Filter>
+    </ClInclude>
+    <Filter Include="Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Public\Types">
+      <UniqueIdentifier>{9C85AC8A-019F-373E-A421-2555C792D020}</UniqueIdentifier>
+    </Filter>
+    <ClInclude Include="..\..\Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Public\Types\AudioRayTypes.h">
+      <Filter>Plugins\AudioTra58f346f95d02V1\Source\AudioTracing\Public\Types</Filter>
+    </ClInclude>
+    <Filter Include="Source\RayTracedAudio">
+      <UniqueIdentifier>{D894D3AE-577B-34D0-9088-A8F9E69ABADE}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\RayTracedAudio\MyClass.cpp">
+      <Filter>Source\RayTracedAudio</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\RayTracedAudio\MyClass.h">
+      <Filter>Source\RayTracedAudio</Filter>
+    </ClInclude>
+    <None Include="..\..\Source\RayTracedAudio\RayTracedAudio.Build.cs">
+      <Filter>Source\RayTracedAudio</Filter>
+    </None>
+    <ClCompile Include="..\..\Source\RayTracedAudio\RayTracedAudio.cpp">
+      <Filter>Source\RayTracedAudio</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\RayTracedAudio\RayTracedAudio.h">
+      <Filter>Source\RayTracedAudio</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

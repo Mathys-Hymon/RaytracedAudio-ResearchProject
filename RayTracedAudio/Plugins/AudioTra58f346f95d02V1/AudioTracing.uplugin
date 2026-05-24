@@ -1,0 +1,73 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.2.0",
+	"FriendlyName": "Audio Tracing",
+	"Description": "Real-Time Hardware-accelerated Ray Traced Audio Plugin.",
+	"Category": "Audio",
+	"CreatedBy": "Pinpoint",
+	"CreatedByURL": "https://www.fab.com/sellers/Pinpoint",
+	"DocsURL": "https://teampinpoint.gitbook.io/teampinpoint-docs/",
+	"MarketplaceURL": "com.epicgames.launcher://ue/Fab/product//8f2d9ef7-f171-468d-ad64-ca4dfd989b3c/",
+	"SupportURL": "https://forums.unrealengine.com/t/pinpoint-audio-tracing/2645588",
+	"EngineVersion": "5.6.0",
+	"CanContainContent": true,
+	"Installed": true,
+	"SupportedTargetPlatforms": [
+		"Win64"
+	],
+	"Modules": [
+		{
+			"Name": "AudioTracing",
+			"Type": "Runtime",
+			"LoadingPhase": "PostConfigInit",
+			"PlatformAllowList": [
+				"Win64"
+			],
+			"PlatformDenyList": [
+				"Linux",
+				"Mac",
+				"IOS",
+				"Android"
+			]
+		},
+		{
+			"Name": "AudioTracingDebug",
+			"Type": "Editor",
+			"LoadingPhase": "PostConfigInit",
+			"PlatformAllowList": [
+				"Win64"
+			],
+			"PlatformDenyList": [
+				"Linux",
+				"Mac",
+				"IOS",
+				"Android"
+			]
+		},
+		{
+			"Name": "AudioTracingEditor",
+			"Type": "Editor",
+			"LoadingPhase": "Default",
+			"PlatformAllowList": [
+				"Win64"
+			],
+			"PlatformDenyList": [
+				"Linux",
+				"Mac",
+				"IOS",
+				"Android"
+			]
+		}
+	],
+	"Plugins": [
+		{
+			"Name": "Metasound",
+			"Enabled": true
+		},
+		{
+			"Name": "Synthesis",
+			"Enabled": true
+		}
+	]
+}

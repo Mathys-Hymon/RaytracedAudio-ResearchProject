@@ -1,0 +1,11 @@
+{
+	"SourceFiles": [
+		"D:\\DEV JEUX\\2026\\RaytracedAudio-ResearchProject\\RayTracedAudio\\Source\\RayTracedAudio\\RayTracedAudio.Build.cs",
+		"D:\\DEV JEUX\\2026\\RaytracedAudio-ResearchProject\\RayTracedAudio\\Plugins\\AudioTra58f346f95d02V1\\Source\\AudioTracingDebug\\AudioTracingDebug.Build.cs",
+		"D:\\DEV JEUX\\2026\\RaytracedAudio-ResearchProject\\RayTracedAudio\\Plugins\\AudioTra58f346f95d02V1\\Source\\AudioTracingEditor\\AudioTracingEditor.Build.cs",
+		"D:\\DEV JEUX\\2026\\RaytracedAudio-ResearchProject\\RayTracedAudio\\Plugins\\AudioTra58f346f95d02V1\\Source\\AudioTracing\\AudioTracing.Build.cs",
+		"D:\\DEV JEUX\\2026\\RaytracedAudio-ResearchProject\\RayTracedAudio\\Source\\RayTracedAudio.Target.cs",
+		"D:\\DEV JEUX\\2026\\RaytracedAudio-ResearchProject\\RayTracedAudio\\Source\\RayTracedAudioEditor.Target.cs"
+	],
+	"EngineVersion": "5.6.1"
+}

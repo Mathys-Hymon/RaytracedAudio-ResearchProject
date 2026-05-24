@@ -1,0 +1,490 @@
+// Copyright (c) 2025 Pinpoint. All Rights Reserved.
+
+#include "/Engine/Private/Common.ush"
+
+#ifndef AUDIO_HARDWARE_INLINE_RAYTRACING
+#define AUDIO_HARDWARE_INLINE_RAYTRACING 0
+#endif // AUDIO_HARDWARE_INLINE_RAYTRACING
+
+#define MAX_TRANSMISSION_COUNT 8
+
+#define ENERGY_THRESHOLD 1e-6f
+
+#if AUDIO_HARDWARE_INLINE_RAYTRACING
+#include "AudioRayTracingCommon.ush"
+
+#include "/Engine/Private/RayTracing/RayTracingHitGroupCommon.ush"
+
+#include "/Engine/Private/RayTracing/TraceRayInlineCommon.ush"
+
+#include "/Engine/Private/Lumen/LumenHardwareRayTracingCommon.ush"
+
+#include "/Engine/Private/PathTracing/Utilities/PathTracingRandomSequence.ush"
+#include "/Engine/Private/MonteCarlo.ush"
+
+
+StructuredBuffer<float3> RayDirections;
+StructuredBuffer<FActiveSoundProxy> ActiveSoundProxies;
+RWStructuredBuffer<FTracedAudioData> TracedResult;
+RWStructuredBuffer<uint> ResultCounter;
+
+float3 TranslatedListenerPosition;
+uint ActiveSoundProxyCount;
+uint RayCount;
+uint MaxReflectionDepth;
+float MaxTraceDistance;
+
+float AudioTracingNormalBias;
+uint CustomPrimitiveDataStartSlotIndex;
+
+RaytracingAccelerationStructure TLAS;
+StructuredBuffer<FHitGroupRootConstants> HitGroupData;
+StructuredBuffer<FRayTracingSceneMetadataRecord> RayTracingSceneMetadata;
+
+
+// return true if InOutEnergy is valid
+bool ApplySoundAbsorption(uint InstanceID, float Thickness, inout float InOutEnergy)
+{
+    const FSoundMaterial Material = GetSoundMaterial(InstanceID);
+    const float AbsorptionCoefficient = Material.AbsorptionCoefficient;
+
+    const float TransmissionFactor = exp(-AbsorptionCoefficient * Thickness);
+    InOutEnergy *= TransmissionFactor;
+
+    return InOutEnergy >= ENERGY_THRESHOLD;
+}
+
+// return true if an overlapped surface is existing
+bool IsOverlappedSurfaceExist(uint CurrentInstanceID,
+    float3 OverlapCheckPoint,
+    float3 Direction,
+    bool bShouldProcessEnter,
+    const FTraceRayInlineContext TraceRayInlineContext,
+    out uint OverlappedInstanceID)
+{
+    FRayDesc Ray;
+    Ray.Origin = OverlapCheckPoint;
+    Ray.Direction = Direction;
+    Ray.TMin = 0.001f;
+    Ray.TMax = AudioTracingNormalBias * 2.f;
+
+    // Look for the opposite surface type: if entering, look for a back-face (exit). If exiting, look for a front-face (entry).
+    const uint RayFlags = RAY_FLAG_FORCE_OPAQUE | (bShouldProcessEnter ? RAY_FLAG_CULL_FRONT_FACING_TRIANGLES : RAY_FLAG_CULL_BACK_FACING_TRIANGLES);
+
+    FTraceRayInlineResult Result = TraceRayInline(
+        TLAS,
+        RayFlags,
+        RAY_TRACING_MASK_OPAQUE,
+        Ray.GetNativeDesc(),
+        TraceRayInlineContext
+    );
+
+    OverlappedInstanceID = Result.InstanceID;
+
+    return Result.IsHit() && Result.InstanceID != CurrentInstanceID;
+}
+
+struct FTransmissionEntry
+{
+    uint InstanceID;
+    float Distance; // Distance of entry from TransmissionStart
+    bool bIsProcessed;
+};
+
+// return true if InOutEnergy is valid
+bool TraceRayTransmission(float3 TransmissionStart,
+    float3 RayDirection,
+    float MaxDistance,
+    const FTraceRayInlineContext TraceRayInlineContext,
+    inout float InOutEnergy)
+{
+    const float3 RayDestination = TransmissionStart + RayDirection * MaxDistance;
+    
+    float3 RayStart = TransmissionStart;
+    float AccumulatedDistance = 0.f;
+
+    FTransmissionEntry ObjectList[MAX_TRANSMISSION_COUNT];
+    uint ObjectListSize = 0;
+
+    for (int i = 0; i < MAX_TRANSMISSION_COUNT; ++i)
+    {
+        ObjectList[i].bIsProcessed = true;
+    }
+
+    int TransmissionCount = 0;
+
+    const uint RayFlags = RAY_FLAG_FORCE_OPAQUE;
+
+    while (AccumulatedDistance < MaxDistance)
+    {
+        float RemainingDistance = MaxDistance - AccumulatedDistance;
+        if (RemainingDistance < 0.001f)
+        {
+            break;
+        }
+
+        FRayDesc Ray;
+        Ray.Origin = RayStart;
+        Ray.Direction = RayDirection;
+        Ray.TMin = 0.001f;
+        Ray.TMax = RemainingDistance;
+
+        FTraceRayInlineResult Result = TraceRayInline(
+            TLAS,
+            RayFlags,
+            RAY_TRACING_MASK_OPAQUE,
+            Ray.GetNativeDesc(),
+            TraceRayInlineContext
+        );
+
+        if (Result.IsMiss())
+        {
+            break;
+        }
+
+        // Ray Hit
+        AccumulatedDistance += Result.HitT;
+
+        const uint HitInstanceID = Result.InstanceID;
+        const float3 HitPoint = RayStart + RayDirection * Result.HitT;
+        const float3 HitNormal = GetWorldNormalFromRayInlineResult(Result, RayTracingSceneMetadata);
+        const bool bHitIsEntering = dot(RayDirection, HitNormal) < 0.f;
+
+        // Set up default events based on the initial hit
+        uint EnteringInstanceID = bHitIsEntering ? HitInstanceID : 0;
+        uint ExitingInstanceID = bHitIsEntering ? 0 : HitInstanceID;
+        bool bShouldProcessEnter = bHitIsEntering;
+        bool bShouldProcessExit = !bHitIsEntering;
+
+        // Check for an overlapped surface to resolve ambiguity at coincident surfaces
+        uint OverlappedInstanceID = 0;
+        float3 OverlapCheckPoint = HitPoint;
+        ApplyPositionBias(OverlapCheckPoint, -RayDirection, bHitIsEntering ? HitNormal : -HitNormal, AudioTracingNormalBias);
+        if (IsOverlappedSurfaceExist(HitInstanceID, OverlapCheckPoint, RayDirection, bHitIsEntering, TraceRayInlineContext, OverlappedInstanceID))
+        {
+            if (bHitIsEntering)
+            {
+                ExitingInstanceID = OverlappedInstanceID;
+            }
+            else
+            {
+                EnteringInstanceID = OverlappedInstanceID;
+            }
+            bShouldProcessExit = true;
+            bShouldProcessEnter = true;
+        }
+
+        if (bShouldProcessExit)
+        {
+            // Default thickness is the total accumulated distance. This handles cases where the ray starts inside an object not yet in the list.
+            float Thickness = AccumulatedDistance; 
+            for (int i = ObjectListSize - 1; i >= 0; --i)
+            {
+                if (!ObjectList[i].bIsProcessed && ObjectList[i].InstanceID == ExitingInstanceID)
+                {
+                    Thickness = AccumulatedDistance - ObjectList[i].Distance;
+                    ObjectList[i].bIsProcessed = true;
+                    break;
+                }
+            }
+
+            if (!ApplySoundAbsorption(ExitingInstanceID, Thickness, InOutEnergy))
+            {
+                return false;
+            }
+        }
+
+        if (bShouldProcessEnter)
+        {
+            if (ObjectListSize < MAX_TRANSMISSION_COUNT)
+            {
+                ObjectList[ObjectListSize].InstanceID = EnteringInstanceID;
+                ObjectList[ObjectListSize].Distance = AccumulatedDistance;
+                ObjectList[ObjectListSize].bIsProcessed = false;
+                ++ObjectListSize;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        TransmissionCount++;
+        RayStart = HitPoint;
+        ApplyPositionBias(RayStart, RayDirection, bHitIsEntering ? -HitNormal : HitNormal, AudioTracingNormalBias);
+    }
+
+    // After the loop, process the final segment from the last hit to MaxDistance
+    float FinalSegmentLength = MaxDistance - AccumulatedDistance;
+    if (FinalSegmentLength > 0.001f)
+    {
+        for (int i = ObjectListSize - 1; i >= 0; --i)
+        {
+            if (!ObjectList[i].bIsProcessed)
+            {
+                const uint FinalMediumInstanceID = ObjectList[i].InstanceID;
+                if (!ApplySoundAbsorption(FinalMediumInstanceID, FinalSegmentLength, InOutEnergy))
+                {
+                    return false;
+                }
+                
+                // Apply attenuation for the innermost medium only and exit the loop.
+                break;
+            }
+        }
+    }
+
+    return InOutEnergy >= ENERGY_THRESHOLD;
+}
+
+
+[numthreads(THREADS_X, 1, 1)]
+void AudioHardwareRayTracingDirectCS(uint3 DispatchThreadID : SV_DispatchThreadID, uint3 GroupThreadID : SV_GroupThreadID)
+{
+    if (DispatchThreadID.x < ActiveSoundProxyCount)
+    {
+        const int Index = DispatchThreadID.x;
+        
+        FTraceRayInlineContext TraceRayInlineContext = CreateTraceRayInlineContext();
+
+        // Check occlusion from listener position
+        const float3 RayOrigin = TranslatedListenerPosition;
+
+        const float3 AudioTranslatedWorldPosition = ActiveSoundProxies[Index].TranslatedWorldPosition;
+
+        float3 Direction = AudioTranslatedWorldPosition - TranslatedListenerPosition;
+        const float DistanceToAudio = length(Direction);
+        Direction = normalize(Direction);
+
+        if (DistanceToAudio <= MaxTraceDistance)
+        {
+            float Energy = 1.0f;
+                
+            if (TraceRayTransmission(RayOrigin, Direction, DistanceToAudio, TraceRayInlineContext, Energy))
+            {
+                const uint ArrayIndex = ActiveSoundProxies[Index].ArrayIndex;
+                const uint MaxResultsPerAudio = RayCount * (MaxReflectionDepth + 1);
+                const uint ResultStart = ArrayIndex * MaxResultsPerAudio;
+
+                uint ResultOffset;
+                InterlockedAdd(ResultCounter[ArrayIndex], 1, ResultOffset);
+
+                if (ResultOffset < MaxResultsPerAudio)
+                {
+                    const float TotalDistance = DistanceToAudio;
+                        
+                    FTracedAudioData ResultData = (FTracedAudioData)0;
+                    ResultData.ArrayIndex = ArrayIndex;
+                    ResultData.DirectionIdx = -1;
+                    ResultData.Distance = TotalDistance;
+                    ResultData.Energy = Energy;
+                    ResultData.ReflectionCount = 0;
+
+                    TracedResult[ResultStart + ResultOffset] = ResultData;
+                }
+            }
+        }
+    }
+}
+
+
+[numthreads(THREADS_X, 1, 1)]
+void AudioHardwareRayTracingIndirectCS(uint3 DispatchThreadID : SV_DispatchThreadID, uint3 GroupThreadID : SV_GroupThreadID)
+{
+    if (DispatchThreadID.x >= RayCount)
+    {
+        return;
+    }
+
+    const int DirectionIdx = DispatchThreadID.x;
+    
+    RandomSequence RandSequence = (RandomSequence)0;
+    RandomSequence_Initialize(RandSequence, DirectionIdx, View.FrameNumber);
+
+    uint RayFlags = RAY_FLAG_FORCE_OPAQUE | RAY_FLAG_CULL_BACK_FACING_TRIANGLES;
+    uint InstanceInclusionMask = RAY_TRACING_MASK_OPAQUE;
+    FTraceRayInlineContext TraceRayInlineContext = CreateTraceRayInlineContext();
+
+    FRayDesc MainRay;
+    MainRay.Origin = TranslatedListenerPosition;
+    MainRay.Direction = RayDirections[DirectionIdx];
+    MainRay.TMin = 0.001f;
+    MainRay.TMax = MaxTraceDistance;
+
+    float RayEnergy = 1.f;
+    float AccumulatedDistance = 0.f;
+    
+    for (int ReflectionDepth = 0; ReflectionDepth < MaxReflectionDepth; ++ReflectionDepth)
+    {
+        FTraceRayInlineResult MainRayResult = TraceRayInline(
+            TLAS,
+            RayFlags,
+            InstanceInclusionMask,
+            MainRay.GetNativeDesc(),
+            TraceRayInlineContext
+        );
+
+        if (MainRayResult.IsHit())
+        {
+            const float3 HitTranslatedWorldPosition = MainRay.Origin + MainRay.Direction * MainRayResult.HitT;
+            AccumulatedDistance += MainRayResult.HitT;
+                
+            const float RemainingDistance = MainRay.TMax - MainRayResult.HitT;
+            if (RemainingDistance < 0.001f)
+            {
+                break;
+            }
+            
+            const float3 WorldNormal = GetWorldNormalFromRayInlineResult(MainRayResult, RayTracingSceneMetadata);
+
+            const FSoundMaterial Material = GetSoundMaterial(MainRayResult.InstanceID);
+            const float ScatteringFactor = Material.ScatteringFactor;
+            const float ReflectionFactor = Material.ReflectionFactor;
+            const float AbsorptionCoefficient = Material.AbsorptionCoefficient;
+
+            // Begin Russian Roulette
+            const float SurvivalProbability = saturate(ReflectionFactor);
+            if (SurvivalProbability < 1e-6f || RandomSequence_GenerateSample1D(RandSequence) > SurvivalProbability)
+            {
+                break;
+            }
+            
+            RayEnergy /= SurvivalProbability;
+            if (RayEnergy < ENERGY_THRESHOLD)
+            {
+                break; // Impossible?
+            }
+            // End Russian Roulette
+
+            float3 HitTranslatedWorldPositionOffset = HitTranslatedWorldPosition;
+            ApplyPositionBias(HitTranslatedWorldPositionOffset, MainRay.Direction, WorldNormal, AudioTracingNormalBias);
+
+            // Check occlusion at current hit position. Next Event Estimation (NEE)
+            for (int i = 0; i < ActiveSoundProxyCount; ++i)
+            {
+                const uint ArrayIndex = ActiveSoundProxies[i].ArrayIndex;
+                const uint MaxResultsPerAudio = RayCount * (MaxReflectionDepth + 1);
+                const uint ResultStart = ArrayIndex * MaxResultsPerAudio;
+                
+                const float3 AudioTranslatedWorldPosition = ActiveSoundProxies[i].TranslatedWorldPosition;
+                const float3 AudioDelta = AudioTranslatedWorldPosition - HitTranslatedWorldPositionOffset;
+                const float DistanceToAudio = length(AudioDelta);
+
+                if (DistanceToAudio > RemainingDistance)
+                {
+                    continue;
+                }
+                
+                const float3 SoundDirection = normalize(AudioDelta);
+
+                FRayDesc ShadowRay;
+                ShadowRay.Origin = HitTranslatedWorldPositionOffset;
+                ShadowRay.Direction = SoundDirection;
+                ShadowRay.TMin = 0.001f;
+                ShadowRay.TMax = DistanceToAudio - 0.001f;
+
+                FTraceRayInlineResult ShadowRayResult = TraceRayInline(
+                    TLAS,
+                    RayFlags,
+                    InstanceInclusionMask,
+                    ShadowRay.GetNativeDesc(),
+                    TraceRayInlineContext
+                );
+
+                const bool bIsSoundBehindSurface = dot(WorldNormal, SoundDirection) < 0.f;
+
+                if (ShadowRayResult.IsMiss() && !bIsSoundBehindSurface)
+                {
+                    const float DiffuseAttenuation = max(0.f, dot(WorldNormal, SoundDirection));
+                    
+                    const float AttenuatedEnergy = RayEnergy * DiffuseAttenuation;
+                    if (AttenuatedEnergy >= ENERGY_THRESHOLD)
+                    {
+                        uint ResultOffset;
+                        InterlockedAdd(ResultCounter[ArrayIndex], 1, ResultOffset);
+
+                        if (ResultOffset < MaxResultsPerAudio)
+                        {
+                            const float TotalDistance = AccumulatedDistance + DistanceToAudio;
+                            
+                            FTracedAudioData ResultData = (FTracedAudioData)0;
+                            ResultData.ArrayIndex = ArrayIndex;
+                            ResultData.DirectionIdx = DirectionIdx;
+                            ResultData.Distance = TotalDistance;
+                            ResultData.Energy = AttenuatedEnergy;
+                            ResultData.ReflectionCount = ReflectionDepth + 1;
+
+                            TracedResult[ResultStart + ResultOffset] = ResultData;
+                        }
+                    }
+                }
+                else
+                {
+                    // If there is an occluder (including when MainRay's collision object is an occluder)
+                    float TransmissionEnergy = RayEnergy;
+                    
+                    if (TraceRayTransmission(HitTranslatedWorldPositionOffset,
+                        SoundDirection,
+                        DistanceToAudio,
+                        TraceRayInlineContext,
+                        TransmissionEnergy))
+                    {
+                        uint ResultOffset;
+                        InterlockedAdd(ResultCounter[ArrayIndex], 1, ResultOffset);
+
+                        if (ResultOffset < MaxResultsPerAudio)
+                        {
+                            float FinalEnergy = TransmissionEnergy;
+                            if (!bIsSoundBehindSurface)
+                            {
+                                /**
+                                 * If the direction to the sound source can be created by reflection from the surface where the MainRay currently collides,
+                                 * i.e. if the dot product with the surface normal vector is greater than or equal to 0, the direction information is meaningful, so calculate Diffuse.
+                                 * However, if the collision surface needs to be transmitted directly, the direction information is meaningless.
+                                 */
+                                const float DiffuseAttenuation = max(0.f, dot(WorldNormal, SoundDirection));
+                                FinalEnergy *= DiffuseAttenuation;
+                            }
+                            
+                            const float TotalDistance = AccumulatedDistance + DistanceToAudio;
+                            
+                            FTracedAudioData ResultData = (FTracedAudioData)0;
+                            ResultData.ArrayIndex = ArrayIndex;
+                            ResultData.DirectionIdx = DirectionIdx;
+                            ResultData.Distance = TotalDistance;
+                            ResultData.Energy = FinalEnergy;
+                            ResultData.ReflectionCount = ReflectionDepth + 1;
+
+                            TracedResult[ResultStart + ResultOffset] = ResultData;
+                        }
+                    }
+                }
+            }
+            
+            // Diffuse reflection
+            float3 NextDirection;
+            if (RandomSequence_GenerateSample1D(RandSequence) < ScatteringFactor)
+            {
+                float2 E = RandomSequence_GenerateSample2D(RandSequence);
+                float4 Sample = CosineSampleHemisphere(E);
+
+                NextDirection = TangentToWorld(Sample.xyz, WorldNormal);
+            }
+            else
+            {
+                NextDirection = reflect(MainRay.Direction, WorldNormal);
+            }
+
+            // Next Ray
+            MainRay.Origin = HitTranslatedWorldPositionOffset;
+            MainRay.Direction = NextDirection;
+            MainRay.TMax = RemainingDistance;
+        }
+        else
+        {
+            break;
+        }
+    }
+}
+
+#endif // AUDIO_HARDWARE_INLINE_RAYTRACING

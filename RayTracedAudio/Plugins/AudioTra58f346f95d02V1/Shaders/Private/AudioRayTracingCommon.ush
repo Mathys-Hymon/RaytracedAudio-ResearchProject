@@ -1,0 +1,129 @@
+// Copyright (c) 2025 Pinpoint. All Rights Reserved.
+
+#pragma once
+
+#ifndef AUDIO_HARDWARE_INLINE_RAYTRACING
+#define AUDIO_HARDWARE_INLINE_RAYTRACING 0
+#endif // AUDIO_HARDWARE_INLINE_RAYTRACING
+
+#define DEFAULT_SCATTERING_FACTOR         0.1f
+#define DEFAULT_REFLECTION_FACTOR         0.97f
+#define DEFAULT_ABSORPTION_COEFFICIENT    0.2f  // cm
+
+struct FActiveSoundProxy
+{
+    float3 TranslatedWorldPosition;
+    uint ArrayIndex;
+};
+
+struct FTracedAudioData 
+{
+    uint ArrayIndex;
+    float Energy;
+    float Distance;
+    int DirectionIdx;
+
+    int ReflectionCount;
+    float3 Padding;
+};
+
+struct FSoundMaterial
+{
+    float ScatteringFactor;
+    float ReflectionFactor;
+    float AbsorptionCoefficient;
+};
+
+#if AUDIO_HARDWARE_INLINE_RAYTRACING
+#include "/Engine/Private/RayTracing/RayTracingCommon.ush"
+
+float3 GetWorldNormalFromRayInlineResult(FTraceRayInlineResult Result, StructuredBuffer<FRayTracingSceneMetadataRecord> RayTracingSceneMetadata)
+{
+    FTriangleBaseAttributes Attributes = LoadInlineRayTracingTriangleAttributes(
+        RayTracingSceneMetadata,
+        Result.InstanceContributionToHitGroupIndex,
+        RAY_TRACING_NUM_SHADER_SLOTS,
+        Result.GeometryIndex,
+        Result.PrimitiveIndex
+    );
+    
+    float3 LocalNormal = cross(Attributes.LocalPositions[2] - Attributes.LocalPositions[0], Attributes.LocalPositions[1] - Attributes.LocalPositions[0]);
+    float3 WorldNormal = normalize(mul(LocalNormal, (float3x3)Result.WorldToObject3x4));
+
+    return WorldNormal;
+}
+
+/**
+ * Loads a float4 of custom primitive data directly from the GPUScene structured buffer.
+ *
+ * This function serves as a manual fetch because the standard GetPrimitiveData() function
+ * resolves to a different implementation in ray tracing shaders (where VF_USE_PRIMITIVE_SCENE_DATA
+ * is typically 0), which uses uniform buffers instead of direct structured buffer access.
+ *
+ * To ensure direct access to the primitive data layout as defined in FPrimitiveSceneShaderData,
+ * this function replicates the core memory access pattern of LoadPrimitivePrimitiveSceneDataElement()
+ * from /Engine/Private/SceneData.ush.
+ *
+ * @param PrimitiveIndex The base index of the primitive data in the buffer (PrimitiveId * Stride).
+ * @param ItemIndex The offset for the specific float4 slot within the custom data section [0, 8].
+ * @return The float4 value at the specified custom data slot.
+ */
+float4 LoadCustomPrimitiveData(uint PrimitiveIndex, uint ItemIndex)
+{
+    uint TargetIdx = PrimitiveIndex + ItemIndex + 35;
+
+    checkStructuredBufferAccessSlow(Scene.GPUScene.GPUScenePrimitiveSceneData, TargetIdx);
+    return Scene.GPUScene.GPUScenePrimitiveSceneData[TargetIdx];
+}
+
+/**
+ * Retrieves sound material properties for a given instance.
+ * Fetches packed custom data and falls back to default values if not set.
+ */
+FSoundMaterial GetSoundMaterial(uint InstanceID)
+{
+    FSoundMaterial Material = (FSoundMaterial)0;
+    Material.ScatteringFactor = DEFAULT_SCATTERING_FACTOR;
+    Material.ReflectionFactor = DEFAULT_REFLECTION_FACTOR;
+    Material.AbsorptionCoefficient = DEFAULT_ABSORPTION_COEFFICIENT;
+    
+    if (CustomPrimitiveDataStartSlotIndex < NUM_CUSTOM_PRIMITIVE_DATA)
+    {
+        const FInstanceSceneData InstanceSceneData = GetInstanceSceneData(InstanceID);
+        const uint PrimitiveId = InstanceSceneData.PrimitiveId;
+
+        uint PrimitiveIndex = PrimitiveId * PRIMITIVE_SCENE_DATA_STRIDE;
+
+        const float4 CustomPrimitiveData = LoadCustomPrimitiveData(PrimitiveIndex,  CustomPrimitiveDataStartSlotIndex);
+        
+        /**
+         * A packed value storing the scattering factor.
+         * The original value is encoded by adding 1.0 to distinguish a user-set value from an unset one.
+         *
+         * - If PackedValue > 0: It's a user-set value. The actual factor is (PackedValue - 1.0).
+         * - If PackedValue == 0: The value was not set. A default factor should be used.
+         *
+         * This method provides a "has-value" flag without a separate data slot.
+         */
+        const float PackedScatteringFactor = CustomPrimitiveData.x;
+        if (PackedScatteringFactor > 0.f)
+        {
+            Material.ScatteringFactor = PackedScatteringFactor - 1.0f;
+            Material.ReflectionFactor = CustomPrimitiveData.y;
+            Material.AbsorptionCoefficient = CustomPrimitiveData.z;
+        }
+    }
+
+    return Material;
+}
+
+float3 TranslateWorldPositionToAbsoluteWorldPosition(float3 TranslatedWorldPosition)
+{
+    return TranslatedWorldPosition - (View.PreViewTranslationHigh + View.PreViewTranslationLow);
+}
+
+float3 AbsoluteWorldPositionToTranslatedWorldPosition(float3 AbsoluteWorldPosition)
+{
+    return AbsoluteWorldPosition + (View.PreViewTranslationHigh + View.PreViewTranslationLow);
+}
+#endif // AUDIO_HARDWARE_INLINE_RAYTRACING

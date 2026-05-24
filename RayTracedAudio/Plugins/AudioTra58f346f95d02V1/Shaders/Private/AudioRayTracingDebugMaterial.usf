@@ -1,0 +1,65 @@
+// Copyright (c) 2025 Pinpoint. All Rights Reserved.
+
+#ifndef AUDIO_HARDWARE_INLINE_RAYTRACING
+#define AUDIO_HARDWARE_INLINE_RAYTRACING 0
+#endif // AUDIO_HARDWARE_INLINE_RAYTRACING
+
+#define MAX_TRANSMISSION_COUNT 8
+
+#if AUDIO_HARDWARE_INLINE_RAYTRACING
+#include "AudioRayTracingCommon.ush"
+
+#include "/Engine/Private/Common.ush"
+
+#include "/Engine/Private/RayTracing/RayTracingHitGroupCommon.ush"
+
+#include "/Engine/Private/RayTracing/TraceRayInlineCommon.ush"
+
+#include "/Engine/Private/Lumen/LumenHardwareRayTracingCommon.ush"
+
+
+RWTexture2D<float4> OutTexture;
+uint CustomPrimitiveDataStartSlotIndex;
+
+RaytracingAccelerationStructure TLAS;
+StructuredBuffer<FHitGroupRootConstants> HitGroupData;
+StructuredBuffer<FRayTracingSceneMetadataRecord> RayTracingSceneMetadata;
+
+[numthreads(THREADS_X, THREADS_Y, 1)]
+void AudioHardwareRaytracingDebugMaterialCS(uint3 DispatchThreadID : SV_DispatchThreadID, uint3 GroupThreadID : SV_GroupThreadID)
+{
+    uint2 PixelCoord = DispatchThreadID.xy;
+	
+    float3 CameraTranslatedWorldPosition;
+    float3 CameraWorldDirection;
+    ReconstructTranslatedWorldPositionAndCameraDirectionFromDeviceZ(PixelCoord, 0.1f, CameraTranslatedWorldPosition, CameraWorldDirection);
+
+    uint RayFlags = RAY_FLAG_FORCE_OPAQUE;
+    uint InstanceInclusionMask = RAY_TRACING_MASK_OPAQUE;
+    FTraceRayInlineContext TraceRayInlineContext = CreateTraceRayInlineContext();
+
+    FRayDesc Ray;
+    Ray.Origin = CameraTranslatedWorldPosition;
+    Ray.Direction = CameraWorldDirection;
+    Ray.TMin = 0.001f;
+    Ray.TMax = 9999.0f;
+
+    FTraceRayInlineResult Result = TraceRayInline(
+        TLAS,
+        RayFlags,
+        InstanceInclusionMask,
+        Ray.GetNativeDesc(),
+        TraceRayInlineContext
+    );
+
+    float4 Color = float4(0.0, 0.0, 0.0, 1.f);
+
+    if (Result.IsHit())
+    {
+        FSoundMaterial Material = GetSoundMaterial(Result.InstanceID);
+        Color = float4(Material.ScatteringFactor, Material.ReflectionFactor, Material.AbsorptionCoefficient, 1.f);
+    }
+	
+    OutTexture[DispatchThreadID.xy] = Color;
+}
+#endif // AUDIO_HARDWARE_INLINE_RAYTRACING

@@ -1,0 +1,14 @@
+/NOLOGO
+/errorReport:prompt
+/MACHINE:x64
+/SUBSYSTEM:WINDOWS
+/DEF
+/NAME:"UnrealEditor-RayTracedAudio.dll"
+/IGNORE:4221
+/NODEFAULTLIB
+"D:/DEV JEUX/2026/RaytracedAudio-ResearchProject/RayTracedAudio/Intermediate/Build/Win64/x64/RayTracedAudioEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.InclOrderUnreal5_3.h.obj"
+"D:/DEV JEUX/2026/RaytracedAudio-ResearchProject/RayTracedAudio/Intermediate/Build/Win64/x64/UnrealEditor/Development/RayTracedAudio/MyClass.cpp.obj"
+"D:/DEV JEUX/2026/RaytracedAudio-ResearchProject/RayTracedAudio/Intermediate/Build/Win64/x64/UnrealEditor/Development/RayTracedAudio/RayTracedAudio.cpp.obj"
+"D:/DEV JEUX/2026/RaytracedAudio-ResearchProject/RayTracedAudio/Intermediate/Build/Win64/x64/UnrealEditor/Development/RayTracedAudio/PerModuleInline.gen.cpp.obj"
+"D:/DEV JEUX/2026/RaytracedAudio-ResearchProject/RayTracedAudio/Intermediate/Build/Win64/x64/UnrealEditor/Development/RayTracedAudio/Default.rc2.res"
+/OUT:"D:/DEV JEUX/2026/RaytracedAudio-ResearchProject/RayTracedAudio/Intermediate/Build/Win64/x64/UnrealEditor/Development/RayTracedAudio/UnrealEditor-RayTracedAudio.lib"

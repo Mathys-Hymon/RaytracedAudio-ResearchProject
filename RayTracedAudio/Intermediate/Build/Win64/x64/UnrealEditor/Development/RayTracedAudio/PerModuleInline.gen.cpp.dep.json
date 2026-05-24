@@ -1,0 +1,14 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "d:\\dev jeux\\2026\\raytracedaudio-researchproject\\raytracedaudio\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\raytracedaudio\\permoduleinline.gen.cpp",
+        "ProvidedModule": "",
+        "PCH": "d:\\dev jeux\\2026\\raytracedaudio-researchproject\\raytracedaudio\\intermediate\\build\\win64\\x64\\raytracedaudioeditor\\development\\unrealed\\sharedpch.unrealed.project.valapi.valexpapi.cpp20.inclorderunreal5_3.h.pch",
+        "Includes": [
+            "d:\\dev jeux\\2026\\raytracedaudio-researchproject\\raytracedaudio\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\raytracedaudio\\definitions.raytracedaudio.h",
+            "e:\\unreal\\ue_5.6\\engine\\source\\runtime\\core\\public\\hal\\permoduleinline.inl"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}

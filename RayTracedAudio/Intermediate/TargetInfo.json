@@ -1,0 +1,14 @@
+{
+	"Targets": [
+		{
+			"Name": "RayTracedAudio",
+			"Path": "..\\Source\\RayTracedAudio.Target.cs",
+			"Type": "Game"
+		},
+		{
+			"Name": "RayTracedAudioEditor",
+			"Path": "..\\Source\\RayTracedAudioEditor.Target.cs",
+			"Type": "Editor"
+		}
+	]
+}

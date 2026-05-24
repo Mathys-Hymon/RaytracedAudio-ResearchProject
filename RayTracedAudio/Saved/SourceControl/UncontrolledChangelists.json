@@ -1,0 +1,19 @@
+{
+	"version": 1,
+	"changelists": [
+		{
+			"guid": "00000000000000000000000000000000",
+			"description": "Default Uncontrolled Changelist",
+			"files": [
+				"D:/DEV JEUX/2026/RaytracedAudio-ResearchProject/RayTracedAudio/Content/RayTracedAudio/SA_Default.uasset",
+				"D:/DEV JEUX/2026/RaytracedAudio-ResearchProject/RayTracedAudio/Content/GPE/BP_Test.uasset",
+				"D:/DEV JEUX/2026/RaytracedAudio-ResearchProject/RayTracedAudio/Content/__ExternalActors__/FirstPerson/Lvl_FirstPerson/B/G1/CFA006T9X1GIC5DREJ4PSQ.uasset",
+				"D:/DEV JEUX/2026/RaytracedAudio-ResearchProject/RayTracedAudio/Content/Audio/Portal_Radio__DECOMPRESSED_.uasset",
+				"D:/DEV JEUX/2026/RaytracedAudio-ResearchProject/RayTracedAudio/Content/__ExternalActors__/FirstPerson/Lvl_FirstPerson/4/N3/FQV2FW1I8D4Z06TF38UTCR.uasset",
+				"D:/DEV JEUX/2026/RaytracedAudio-ResearchProject/RayTracedAudio/Content/__ExternalActors__/FirstPerson/Lvl_FirstPerson/4/XL/U0BAKX7624EKY7QR8W4QDX.uasset",
+				"D:/DEV JEUX/2026/RaytracedAudio-ResearchProject/RayTracedAudio/Content/__ExternalActors__/FirstPerson/Lvl_FirstPerson/7/Y5/O13IU5DBWP4CTE9LAL83L9.uasset",
+				"D:/DEV JEUX/2026/RaytracedAudio-ResearchProject/RayTracedAudio/Content/__ExternalActors__/FirstPerson/Lvl_FirstPerson/7/Z8/RYLDA7OKW6IVT0T6RVXJ62.uasset"
+			]
+		}
+	]
+}
