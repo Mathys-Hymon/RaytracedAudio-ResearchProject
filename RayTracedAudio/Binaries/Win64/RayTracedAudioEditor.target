@@ -34,6 +34,34 @@
 			"Type": "RequiredResource"
 		},
 		{
+			"Path": "$(ProjectDir)/Plugins/AudioTra58f346f95d02V1/Binaries/Win64/UnrealEditor-AudioTracing.dll",
+			"Type": "DynamicLibrary"
+		},
+		{
+			"Path": "$(ProjectDir)/Plugins/AudioTra58f346f95d02V1/Binaries/Win64/UnrealEditor-AudioTracing.pdb",
+			"Type": "SymbolFile"
+		},
+		{
+			"Path": "$(ProjectDir)/Plugins/AudioTra58f346f95d02V1/Binaries/Win64/UnrealEditor-AudioTracingDebug.dll",
+			"Type": "DynamicLibrary"
+		},
+		{
+			"Path": "$(ProjectDir)/Plugins/AudioTra58f346f95d02V1/Binaries/Win64/UnrealEditor-AudioTracingDebug.pdb",
+			"Type": "SymbolFile"
+		},
+		{
+			"Path": "$(ProjectDir)/Plugins/AudioTra58f346f95d02V1/Binaries/Win64/UnrealEditor-AudioTracingEditor.dll",
+			"Type": "DynamicLibrary"
+		},
+		{
+			"Path": "$(ProjectDir)/Plugins/AudioTra58f346f95d02V1/Binaries/Win64/UnrealEditor-AudioTracingEditor.pdb",
+			"Type": "SymbolFile"
+		},
+		{
+			"Path": "$(ProjectDir)/Plugins/AudioTra58f346f95d02V1/Binaries/Win64/UnrealEditor.modules",
+			"Type": "RequiredResource"
+		},
+		{
 			"Path": "$(EngineDir)/Binaries/Win64/AgentInterface.dll",
 			"Type": "DynamicLibrary"
 		},
@@ -3314,34 +3342,6 @@
 			"Type": "RequiredResource"
 		},
 		{
-			"Path": "$(EngineDir)/Plugins/Marketplace/AudioTra58f346f95d02V1/Binaries/Win64/UnrealEditor-AudioTracing.dll",
-			"Type": "DynamicLibrary"
-		},
-		{
-			"Path": "$(EngineDir)/Plugins/Marketplace/AudioTra58f346f95d02V1/Binaries/Win64/UnrealEditor-AudioTracing.pdb",
-			"Type": "SymbolFile"
-		},
-		{
-			"Path": "$(EngineDir)/Plugins/Marketplace/AudioTra58f346f95d02V1/Binaries/Win64/UnrealEditor-AudioTracingDebug.dll",
-			"Type": "DynamicLibrary"
-		},
-		{
-			"Path": "$(EngineDir)/Plugins/Marketplace/AudioTra58f346f95d02V1/Binaries/Win64/UnrealEditor-AudioTracingDebug.pdb",
-			"Type": "SymbolFile"
-		},
-		{
-			"Path": "$(EngineDir)/Plugins/Marketplace/AudioTra58f346f95d02V1/Binaries/Win64/UnrealEditor-AudioTracingEditor.dll",
-			"Type": "DynamicLibrary"
-		},
-		{
-			"Path": "$(EngineDir)/Plugins/Marketplace/AudioTra58f346f95d02V1/Binaries/Win64/UnrealEditor-AudioTracingEditor.pdb",
-			"Type": "SymbolFile"
-		},
-		{
-			"Path": "$(EngineDir)/Plugins/Marketplace/AudioTra58f346f95d02V1/Binaries/Win64/UnrealEditor.modules",
-			"Type": "RequiredResource"
-		},
-		{
 			"Path": "$(EngineDir)/Plugins/Marketplace/Developer/RiderLink/Binaries/Win64/UnrealEditor-RD.dll",
 			"Type": "DynamicLibrary"
 		},
@@ -4323,6 +4323,10 @@
 		}
 	],
 	"RuntimeDependencies": [
+		{
+			"Path": "$(ProjectDir)/Plugins/AudioTra58f346f95d02V1/AudioTracing.uplugin",
+			"Type": "UFS"
+		},
 		{
 			"Path": "$(ProjectDir)/RayTracedAudio.uproject",
 			"Type": "UFS"
@@ -28529,10 +28533,6 @@
 		},
 		{
 			"Path": "$(EngineDir)/Plugins/IoStoreInsights/IoStoreInsights.uplugin",
-			"Type": "UFS"
-		},
-		{
-			"Path": "$(EngineDir)/Plugins/Marketplace/AudioTra58f346f95d02V1/AudioTracing.uplugin",
 			"Type": "UFS"
 		},
 		{

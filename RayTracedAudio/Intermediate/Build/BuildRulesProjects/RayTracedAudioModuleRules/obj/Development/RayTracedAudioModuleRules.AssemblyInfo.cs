@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RayTracedAudioModuleRules")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Development")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f4db7456d5136da0e571b6bf84dafd7dc58d4d7d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d7dcf8fc310623b0c86a29f4f279b228613799d4")]
 [assembly: System.Reflection.AssemblyProductAttribute("RayTracedAudioModuleRules")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RayTracedAudioModuleRules")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

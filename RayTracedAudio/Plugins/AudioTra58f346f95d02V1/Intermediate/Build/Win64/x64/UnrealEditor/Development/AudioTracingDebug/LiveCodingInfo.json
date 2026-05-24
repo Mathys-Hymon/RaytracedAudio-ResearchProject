@@ -1,0 +1,14 @@
+{
+	"RemapUnityFiles": 
+	{
+		"Module.AudioTracingDebug.cpp.obj": [
+			"AudioTracingDebug.init.gen.cpp.obj",
+			"AudioTracingDebugSubsystem.gen.cpp.obj",
+			"PerModuleInline.gen.cpp.obj",
+			"AudioTracingDebug.cpp.obj",
+			"AudioTracingDebugSubsystem.cpp.obj",
+			"ATDebugSceneViewExtension.cpp.obj",
+			"AudioHardwareRaytracingDebug.cpp.obj"
+		]
+	}
+}

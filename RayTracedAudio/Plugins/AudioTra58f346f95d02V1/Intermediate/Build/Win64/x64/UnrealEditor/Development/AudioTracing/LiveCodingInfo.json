@@ -1,0 +1,30 @@
+{
+	"RemapUnityFiles": 
+	{
+		"Module.AudioTracing.cpp.obj": [
+			"ATSoundMaterialComponent.gen.cpp.obj",
+			"AudioRayTypes.gen.cpp.obj",
+			"AudioTracing.init.gen.cpp.obj",
+			"AudioTracingSettings.gen.cpp.obj",
+			"AudioTracingWorldSubsystem.gen.cpp.obj",
+			"SoundMaterial.gen.cpp.obj",
+			"PerModuleInline.gen.cpp.obj",
+			"AudioTracing.cpp.obj",
+			"AudioTracingLog.cpp.obj",
+			"AudioTracingWorldSubsystem.cpp.obj",
+			"ATSoundMaterialComponent.cpp.obj",
+			"ATSceneViewExtension.cpp.obj",
+			"AudioTracingSettings.cpp.obj",
+			"AudioHardwareRaytracing.cpp.obj",
+			"ATAudioSourceDataOverride.cpp.obj",
+			"ATAudioSourceDataOverrideFactory.cpp.obj",
+			"AudioTracingSpatializer.cpp.obj",
+			"AudioTracingSpatializerFactory.cpp.obj",
+			"AudioTracingSpatialTapDelay.cpp.obj",
+			"SoundMaterial.cpp.obj",
+			"ATAlgorithm.cpp.obj",
+			"ATUtils.cpp.obj",
+			"AudioTracingParamThread.cpp.obj"
+		]
+	}
+}

@@ -1,0 +1,15 @@
+{
+	"RemapUnityFiles": 
+	{
+		"Module.AudioTracingEditor.cpp.obj": [
+			"AudioTracingActorActionUtility.gen.cpp.obj",
+			"AudioTracingEditor.init.gen.cpp.obj",
+			"SoundMaterialFactory.gen.cpp.obj",
+			"PerModuleInline.gen.cpp.obj",
+			"AudioTracingActorActionUtility.cpp.obj",
+			"SoundMaterialAssetActions.cpp.obj",
+			"AudioTracingEditor.cpp.obj",
+			"SoundMaterialFactory.cpp.obj"
+		]
+	}
+}

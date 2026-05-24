@@ -1,0 +1,9 @@
+{
+	"BuildId": "43139311",
+	"Modules": 
+	{
+		"AudioTracing": "UnrealEditor-AudioTracing.dll",
+		"AudioTracingDebug": "UnrealEditor-AudioTracingDebug.dll",
+		"AudioTracingEditor": "UnrealEditor-AudioTracingEditor.dll"
+	}
+}
